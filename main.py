@@ -1,9 +1,11 @@
+import os
 from prompt_toolkit import prompt
 from prompt_toolkit.shortcuts import message_dialog, button_dialog
 from prompt_toolkit.styles import Style
 import openai
 
-openai.api_key = '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'
+
+openai.api_key = os.environ.get('OPENAI_API_KEY')
 
 # your functions and code here
 
@@ -13,8 +15,6 @@ server_system = { "role": "system", "content": "You a server at a restaurant. Tr
 def start_conversation(system_1, system_2, initial_message):
     print("starting conversation")
 
-
-    server_initial_message = "Hello, what would you like to order?"
     
     print("server: ", initial_message)
     
@@ -25,7 +25,7 @@ def start_conversation(system_1, system_2, initial_message):
     server_conversation = [system_2, server_initial_s]
 
 
-    for i in range(20):
+    for i in range(10):
         guest_r = api_call(guest_conversation)
         if guest_r is None or "choices" not in guest_r:
             print("Error with guest api_call")
@@ -90,7 +90,7 @@ def main():
     start_conversation(guest_system, server_system, initial_message)
 
 def api_call(conversation):
-
+    print("api_call: ", conversation)
     response = openai.ChatCompletion.create(
       model="gpt-3.5-turbo",
       messages=conversation, 
