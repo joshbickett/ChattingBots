@@ -5,7 +5,8 @@ from prompt_toolkit.styles import Style
 import openai
 
 
-openai.api_key = os.environ.get('OPENAI_API_KEY')
+openai.api_key = os.environ.get('OPENAI_KEY')
+
 
 # your functions and code here
 
@@ -90,7 +91,7 @@ def main():
     start_conversation(guest_system, server_system, initial_message)
 
 def api_call(conversation):
-    print("api_call: ", conversation)
+
     response = openai.ChatCompletion.create(
       model="gpt-3.5-turbo",
       messages=conversation, 
