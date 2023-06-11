@@ -2,11 +2,19 @@ import os
 from prompt_toolkit import prompt
 from prompt_toolkit.shortcuts import message_dialog, button_dialog
 from prompt_toolkit.styles import Style
+from prompt_toolkit.history import InMemoryHistory
 import openai
 
 
 openai.api_key = os.environ.get('OPENAI_KEY')
 
+def api_call(conversation):
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=conversation,
+        temperature=0.7
+    )
+    return response
 
 # your functions and code here
 
@@ -68,12 +76,15 @@ style = Style.from_dict({
     'dialog shadow': 'bg:#003800',
 })
 
+
 def main():
     message_dialog(
         title='Restaurant Simulation',
         text='Welcome to the Restaurant Conversation Simulation.',
         style=style
     ).run()
+
+    os.system('clear')  # Clears the terminal screen
 
     initial_message = prompt('Enter the initial message for the server: ')
 
@@ -87,20 +98,12 @@ def main():
         style=style
     ).run()
 
+    os.system('clear')  # Clears the terminal screen
+
     # Now use the provided initial message
     start_conversation(guest_system, server_system, initial_message)
 
-def api_call(conversation):
 
-    response = openai.ChatCompletion.create(
-      model="gpt-3.5-turbo",
-      messages=conversation, 
-        temperature=0.7
-    )
-    return response
-    
 
 if __name__ == "__main__":
     main()
-
-
