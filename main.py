@@ -1,8 +1,8 @@
 import os
 from prompt_toolkit import prompt
 from prompt_toolkit.shortcuts import message_dialog, button_dialog
-from prompt_toolkit.styles import Style
-from prompt_toolkit.history import InMemoryHistory
+from prompt_toolkit.styles import Style as PromptStyle
+from colorama import Fore, Style as ColoramaStyle
 import openai
 
 
@@ -24,15 +24,13 @@ server_system = { "role": "system", "content": "You a server at a restaurant. Tr
 def start_conversation(system_1, system_2, initial_message):
     print("starting conversation")
 
-    
-    print("server: ", initial_message)
-    
-    server_initial_g = { "role": "user", "content": initial_message }
-    server_initial_s = { "role": "assistant", "content": initial_message}
-    
+    print(Fore.YELLOW + "server: " + initial_message + ColoramaStyle.RESET_ALL)
+
+    server_initial_g = {"role": "user", "content": initial_message}
+    server_initial_s = {"role": "assistant", "content": initial_message}
+
     guest_conversation = [system_1, server_initial_g]
     server_conversation = [system_2, server_initial_s]
-
 
     for i in range(10):
         guest_r = api_call(guest_conversation)
@@ -41,10 +39,10 @@ def start_conversation(system_1, system_2, initial_message):
             break
 
         guest_r = guest_r["choices"][0]["message"]["content"]
-        print('sys 1: ', guest_r)
+        print(Fore.CYAN + "sys 1: " + guest_r + ColoramaStyle.RESET_ALL)
 
-        guest_response_s = { "role": "user", "content": guest_r }
-        guest_response_g = { "role": "assistant", "content": guest_r }
+        guest_response_s = {"role": "user", "content": guest_r}
+        guest_response_g = {"role": "assistant", "content": guest_r}
 
         server_conversation = server_conversation[-8:] + [guest_response_s]  # keep only the last 8 messages to make room for 2 new ones
 
@@ -54,10 +52,10 @@ def start_conversation(system_1, system_2, initial_message):
             break
 
         server_r = server_r["choices"][0]["message"]["content"]
-        print("sys 2: ", server_r)
+        print(Fore.GREEN + "sys 2: " + server_r + ColoramaStyle.RESET_ALL)
 
-        server_response_g = { "role": "user", "content": server_r }
-        server_response_s = { "role": "assistant", "content": server_r }
+        server_response_g = {"role": "user", "content": server_r}
+        server_response_s = {"role": "assistant", "content": server_r}
 
         guest_conversation = guest_conversation[-8:] + [guest_response_g, server_response_g]  # keep only the last 8 messages to make room for 2 new ones
         server_conversation = server_conversation + [server_response_s]  # Add the server's response to the server conversation
@@ -69,7 +67,7 @@ def start_conversation(system_1, system_2, initial_message):
 
 
 # Define style
-style = Style.from_dict({
+style = PromptStyle.from_dict({
     'dialog': 'bg:#88ff88',
     'button': 'bg:#ffffff #000000',
     'dialog.body': 'bg:#44cc44 #ffffff',
