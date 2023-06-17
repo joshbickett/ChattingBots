@@ -16,25 +16,25 @@ Simply follow the instructions below to get started:
 
 Open your terminal and type the following command:
 
-\```bash
+```
 git clone https://github.com/joshbickett/ChattingBots.git
-\```
+```
 
 **Step 2: Install the Dependencies**
 
 After cloning the repository, navigate into the directory and install the necessary Python dependencies using pip:
 
-\```bash
+```
 pip install -r requirements.txt
-\```
+```
 
 **Step 3: Set Up OpenAI API Key**
 
 ChattingBots uses the OpenAI API to generate dialogues. To enable this functionality, you need to export your OpenAI API key as an environment variable:
 
-\```bash
+```
 export OPENAI_API_KEY=[your api key]
-\```
+```
 
 Make sure to replace `[your api key]` with your actual OpenAI API key.
 
