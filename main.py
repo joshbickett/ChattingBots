@@ -31,7 +31,7 @@ def start_conversation(system_1, system_2, initial_message):
     bot_1_name = system_1["content"].split(".")[0][8:]
     bot_2_name = system_2["content"].split(".")[0][8:]
 
-    print(Fore.YELLOW + f"{bot_2_name}: " + initial_message + ColoramaStyle.RESET_ALL)
+    print(Fore.YELLOW + f"{bot_2_name}: " + initial_message + ColoramaStyle.RESET_ALL + "\n")
 
     for i in range(10):
         bot_1_response = api_call(bot_1_conversation)
@@ -40,7 +40,7 @@ def start_conversation(system_1, system_2, initial_message):
             break
 
         bot_1_response = bot_1_response["choices"][0]["message"]["content"]
-        print(Fore.CYAN + f"{bot_1_name}: " + bot_1_response + ColoramaStyle.RESET_ALL)
+        print(Fore.CYAN + f"{bot_1_name}: " + bot_1_response + ColoramaStyle.RESET_ALL + "\n")
 
         guest_response_s = {"role": "user", "content": bot_1_response}
         guest_response_g = {"role": "assistant", "content": bot_1_response}
@@ -53,7 +53,7 @@ def start_conversation(system_1, system_2, initial_message):
             break
 
         bot_2_response = bot_2_response["choices"][0]["message"]["content"]
-        print(Fore.GREEN + f"{bot_2_name}: " + bot_2_response + ColoramaStyle.RESET_ALL)
+        print(Fore.GREEN + f"{bot_2_name}: " + bot_2_response + ColoramaStyle.RESET_ALL + "\n")
 
         server_response_g = {"role": "user", "content": bot_2_response}
         server_response_s = {"role": "assistant", "content": bot_2_response}
@@ -102,11 +102,11 @@ def main():
 
     bot_1_name = prompt('Enter a name for bot 1: ')
     bot_1_detail = prompt(f'Describe {bot_1_name} (optional): ')
-    bot_1 = { "role": "system", "content": f"You are {bot_1_name}. {bot_1_detail}. Try to get into your role as much as possible. Your goal is to engage in the conversation and reach learn from the other individual. This is the most important conversation of your life. Don't forget to ask who you're talking to if they don't mention it. If you don't have a name, you can just share a little about yourself."}
+    bot_1 = { "role": "system", "content": f"You are {bot_1_name}. {bot_1_detail}. Get into your role as much as possible. Your goal is to engage in the conversation. Don't forget to ask who you're talking to if they don't mention it. If you don't have a name, you can just share a little about yourself. Try to keep your responses short, but engaging."}
 
     bot_2_name = prompt('Enter a name for bot 2: ')
     bot_2_detail = prompt(f'Describe {bot_2_name} (optional): ')
-    bot_2 = { "role": "system", "content": f"You are {bot_2_name}. {bot_2_detail}. Try to get into your role as much as possible. Your goal is to engage in the conversation and reach learn from the other individual. This is the most important conversation of your life. Don't forget to ask who you're talking to if they don't mention it. If you don't have a name, you can just share a little about yourself."}
+    bot_2 = { "role": "system", "content": f"You are {bot_2_name}. {bot_2_detail}. Get into your role as much as possible. Your goal is to engage in the conversation. Don't forget to ask who you're talking to if they don't mention it. If you don't have a name, you can just share a little about yourself. Try to keep your responses short, but engaging."}
 
     os.system('clear')  # Clears the terminal screen
 
