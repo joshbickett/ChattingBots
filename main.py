@@ -7,6 +7,7 @@ import openai
 
 
 openai.api_key = os.environ.get('OPENAI_KEY')
+print("OPENAI_KEY: " + os.environ.get('OPENAI_KEY'))
 
 def api_call(conversation):
     response = openai.ChatCompletion.create(
@@ -77,8 +78,8 @@ style = PromptStyle.from_dict({
 
 def main():
     message_dialog(
-        title='Restaurant Simulation',
-        text='Welcome to the Restaurant Conversation Simulation.',
+        title='Chatting Bots',
+        text='Have AIs talk about any topic you want.',
         style=style
     ).run()
 
