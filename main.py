@@ -34,7 +34,7 @@ def start_conversation(system_1, system_2, initial_message):
     bot_1_name = system_1["content"].split(".")[0][8:]
     bot_2_name = system_2["content"].split(".")[0][8:]
 
-    print(Fore.YELLOW + f"{bot_1_name}: " + initial_message + ColoramaStyle.RESET_ALL)
+    print(Fore.YELLOW + f"{bot_2_name}: " + initial_message + ColoramaStyle.RESET_ALL)
 
     for i in range(10):
         bot_1_response = api_call(bot_1_conversation)
@@ -99,7 +99,7 @@ def main():
 
     os.system('clear')  # Clears the terminal screen
 
-    initial_message = prompt('Enter the initial message for the server: ')
+    initial_message = prompt(f'Enter the initial message for the {bot_2_name}:')
 
     # Now use the provided initial message
     start_conversation(bot_1, bot_2, initial_message)
