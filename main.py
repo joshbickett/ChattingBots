@@ -1,4 +1,6 @@
 import os
+import time
+import sys
 from prompt_toolkit import prompt
 from prompt_toolkit.shortcuts import message_dialog, button_dialog
 from prompt_toolkit.styles import Style as PromptStyle
@@ -31,7 +33,10 @@ def start_conversation(system_1, system_2, initial_message):
     bot_1_name = system_1["content"].split(".")[0][8:]
     bot_2_name = system_2["content"].split(".")[0][8:]
 
-    print(Fore.YELLOW + f"{bot_2_name}: " + initial_message + ColoramaStyle.RESET_ALL + "\n")
+    for c in Fore.YELLOW + f"{bot_2_name}: " + initial_message + ColoramaStyle.RESET_ALL + "\n":
+        print(c, end="")
+        sys.stdout.flush()  # Make sure the character is displayed immediately
+        time.sleep(0.02)
 
     for i in range(10):
         bot_1_response = api_call(bot_1_conversation)
@@ -40,7 +45,10 @@ def start_conversation(system_1, system_2, initial_message):
             break
 
         bot_1_response = bot_1_response["choices"][0]["message"]["content"]
-        print(Fore.CYAN + f"{bot_1_name}: " + bot_1_response + ColoramaStyle.RESET_ALL + "\n")
+        for c in Fore.CYAN + f"{bot_1_name}: " + bot_1_response + ColoramaStyle.RESET_ALL + "\n":
+            print(c, end="")
+            sys.stdout.flush()  # Make sure the character is displayed immediately
+            time.sleep(0.02)
 
         guest_response_s = {"role": "user", "content": bot_1_response}
         guest_response_g = {"role": "assistant", "content": bot_1_response}
@@ -53,7 +61,10 @@ def start_conversation(system_1, system_2, initial_message):
             break
 
         bot_2_response = bot_2_response["choices"][0]["message"]["content"]
-        print(Fore.GREEN + f"{bot_2_name}: " + bot_2_response + ColoramaStyle.RESET_ALL + "\n")
+        for c in Fore.GREEN + f"{bot_2_name}: " + bot_2_response + ColoramaStyle.RESET_ALL + "\n":
+            print(c, end="")
+            sys.stdout.flush()  # Make sure the character is displayed immediately
+            time.sleep(0.02)
 
         server_response_g = {"role": "user", "content": bot_2_response}
         server_response_s = {"role": "assistant", "content": bot_2_response}
