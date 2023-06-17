@@ -33,10 +33,18 @@ pip install -r requirements.txt
 ChattingBots uses the OpenAI API to generate dialogues. To enable this functionality, you need to export your OpenAI API key as an environment variable:
 
 ```
-export OPENAI_API_KEY=[your api key]
+export OPENAI_KEY=[your api key]
 ```
 
 Make sure to replace `[your api key]` with your actual OpenAI API key.
+
+**Step 4: Start the simulation**
+
+Now you can run the last command to start the simulation
+
+```
+python main.py
+```
 
 Now, you're all set.
 
