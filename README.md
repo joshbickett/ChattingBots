@@ -6,7 +6,7 @@ Welcome to ChattingBots! This project allows you to create conversations between
 
 For instance, have Socrates and Tom Cruise engage in a deep debate about the meaning of life. Or maybe, you'd prefer to hear what they had for breakfast?
 
-[demo](<demo link>)
+[demo](https://github.com/joshbickett/ChattingBots/blob/main/LICENSE)
 
 ## Getting Started
 
@@ -42,4 +42,4 @@ Now, you're all set.
 
 ## License
 
-ChattingBots is available under the [MIT License](LICENSE).
+ChattingBots is available under the [MIT License](https://github.com/joshbickett/ChattingBots/blob/main/LICENSE).
