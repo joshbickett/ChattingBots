@@ -99,7 +99,7 @@ def main():
 
     os.system('clear')  # Clears the terminal screen
 
-    initial_message = prompt(f'Enter the initial message for the {bot_2_name}:')
+    initial_message = prompt(f'Enter the initial message from {bot_2_name}:')
 
     # Now use the provided initial message
     start_conversation(bot_1, bot_2, initial_message)
