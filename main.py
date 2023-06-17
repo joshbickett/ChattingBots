@@ -25,22 +25,25 @@ server_system = { "role": "system", "content": "You a server at a restaurant. Tr
 def start_conversation(system_1, system_2, initial_message):
     print("starting conversation")
 
-    print(Fore.YELLOW + "server: " + initial_message + ColoramaStyle.RESET_ALL)
-
     system_1_initial = {"role": "user", "content": initial_message}
     system_2_initial = {"role": "assistant", "content": initial_message}
 
     bot_1_conversation = [system_1, system_1_initial]
     bot_2_conversation = [system_2, system_2_initial]
 
+    bot_1_name = system_1["content"].split(".")[0][8:]
+    bot_2_name = system_2["content"].split(".")[0][8:]
+
+    print(Fore.YELLOW + f"{bot_1_name}: " + initial_message + ColoramaStyle.RESET_ALL)
+
     for i in range(10):
         bot_1_response = api_call(bot_1_conversation)
         if bot_1_response is None or "choices" not in bot_1_response:
-            print("Error with guest api_call")
+            print("Error with bot 1 api_call")
             break
 
         bot_1_response = bot_1_response["choices"][0]["message"]["content"]
-        print(Fore.CYAN + "sys 1: " + bot_1_response + ColoramaStyle.RESET_ALL)
+        print(Fore.CYAN + f"{bot_1_name}: " + bot_1_response + ColoramaStyle.RESET_ALL)
 
         guest_response_s = {"role": "user", "content": bot_1_response}
         guest_response_g = {"role": "assistant", "content": bot_1_response}
@@ -49,17 +52,17 @@ def start_conversation(system_1, system_2, initial_message):
 
         bot_2_response = api_call(bot_2_conversation)
         if bot_2_response is None or "choices" not in bot_2_response:
-            print("Error with server api_call")
+            print("Error with bot 2 api_call")
             break
 
         bot_2_response = bot_2_response["choices"][0]["message"]["content"]
-        print(Fore.GREEN + "sys 2: " + bot_2_response + ColoramaStyle.RESET_ALL)
+        print(Fore.GREEN + f"{bot_2_name}: " + bot_2_response + ColoramaStyle.RESET_ALL)
 
         server_response_g = {"role": "user", "content": bot_2_response}
         server_response_s = {"role": "assistant", "content": bot_2_response}
 
         bot_1_conversation = bot_1_conversation[-8:] + [guest_response_g, server_response_g]  # keep only the last 8 messages to make room for 2 new ones
-        bot_2_conversation = bot_2_conversation + [server_response_s]  # Add the server's response to the server conversation
+        bot_2_conversation = bot_2_conversation + [server_response_s]  # Add the bot 2's response to the bot 2 conversation
 
         # stop condition
         if 'bye' in bot_1_response.lower():
