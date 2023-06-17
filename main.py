@@ -2,12 +2,12 @@ import os
 from prompt_toolkit import prompt
 from prompt_toolkit.shortcuts import message_dialog, button_dialog
 from prompt_toolkit.styles import Style as PromptStyle
+from prompt_toolkit.shortcuts import button_dialog
 from colorama import Fore, Style as ColoramaStyle
+
 import openai
 
-
 openai.api_key = os.environ.get('OPENAI_KEY')
-print("OPENAI_KEY: " + os.environ.get('OPENAI_KEY'))
 
 def api_call(conversation):
     response = openai.ChatCompletion.create(
@@ -18,9 +18,6 @@ def api_call(conversation):
     return response
 
 # your functions and code here
-
-guest_system = { "role": "system", "content": "You are at a restaurant. You just saw the menu and the server just walked up and said hi."}
-server_system = { "role": "system", "content": "You a server at a restaurant. Try to keep the conversation short and to the point so you can get to all your tables"}
 
 def start_conversation(system_1, system_2, initial_message):
     print("starting conversation")
@@ -67,8 +64,22 @@ def start_conversation(system_1, system_2, initial_message):
         # stop condition
         if 'bye' in bot_1_response.lower():
             print('Someone said bye')
-            break
-        
+            break    
+        # Add pause and check for continuation every 10th message
+        if (i+1) % 5 == 0:
+            user_continue = button_dialog(
+                title='Continue conversation',
+                text='Do you want to continue the conversation?',
+                buttons=[
+                    ('Yes', True),
+                    ('No', False),
+                ],
+                style=style
+            ).run()
+            
+            if not user_continue:
+                print('Conversation ended by user.')
+                break
 
 
 # Define style
@@ -103,8 +114,6 @@ def main():
 
     # Now use the provided initial message
     start_conversation(bot_1, bot_2, initial_message)
-
-
 
 
 if __name__ == "__main__":
