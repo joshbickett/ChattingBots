@@ -33,21 +33,29 @@ def start_conversation(system_1, system_2, initial_message):
     bot_1_name = system_1["content"].split(".")[0][8:]
     bot_2_name = system_2["content"].split(".")[0][8:]
 
-    for c in Fore.YELLOW + f"{bot_2_name}: " + initial_message + ColoramaStyle.RESET_ALL + "\n":
+    print(Fore.GREEN + f"{bot_2_name}: ", end="")
+    sys.stdout.flush()
+
+    for c in initial_message + ColoramaStyle.RESET_ALL + "\n":
         print(c, end="")
-        sys.stdout.flush()  # Make sure the character is displayed immediately
+        sys.stdout.flush()
         time.sleep(0.02)
 
     for i in range(10):
+        print(Fore.CYAN + f"{bot_1_name}: ", end="")
+        sys.stdout.flush()
+
         bot_1_response = api_call(bot_1_conversation)
         if bot_1_response is None or "choices" not in bot_1_response:
             print("Error with bot 1 api_call")
             break
 
+        
+
         bot_1_response = bot_1_response["choices"][0]["message"]["content"]
-        for c in Fore.CYAN + f"{bot_1_name}: " + bot_1_response + ColoramaStyle.RESET_ALL + "\n":
+        for c in bot_1_response + ColoramaStyle.RESET_ALL + "\n":
             print(c, end="")
-            sys.stdout.flush()  # Make sure the character is displayed immediately
+            sys.stdout.flush()
             time.sleep(0.02)
 
         guest_response_s = {"role": "user", "content": bot_1_response}
@@ -55,15 +63,19 @@ def start_conversation(system_1, system_2, initial_message):
 
         bot_2_conversation = bot_2_conversation[-8:] + [guest_response_s]  # keep only the last 8 messages to make room for 2 new ones
 
+        print(Fore.GREEN + f"{bot_2_name}: ", end="")
+        sys.stdout.flush()
+
         bot_2_response = api_call(bot_2_conversation)
         if bot_2_response is None or "choices" not in bot_2_response:
             print("Error with bot 2 api_call")
             break
 
+
         bot_2_response = bot_2_response["choices"][0]["message"]["content"]
-        for c in Fore.GREEN + f"{bot_2_name}: " + bot_2_response + ColoramaStyle.RESET_ALL + "\n":
+        for c in bot_2_response + ColoramaStyle.RESET_ALL + "\n":
             print(c, end="")
-            sys.stdout.flush()  # Make sure the character is displayed immediately
+            sys.stdout.flush()
             time.sleep(0.02)
 
         server_response_g = {"role": "user", "content": bot_2_response}
@@ -118,8 +130,8 @@ def main():
     bot_2_name = prompt('Enter a name for bot 2: ')
     bot_2_detail = prompt(f'Describe {bot_2_name} (optional): ')
 
-    bot_1 = { "role": "system", "content": f"You are {bot_1_name}. {bot_1_detail}. Get into your role as much as possible. Your goal is to engage in the conversation. If you don't have a name, you can just share a little about yourself. Try to keep your responses short, but engaging. You are speaking to {bot_2_name}."}
-    bot_2 = { "role": "system", "content": f"You are {bot_2_name}. {bot_2_detail}. Get into your role as much as possible. Your goal is to engage in the conversation. If you don't have a name, you can just share a little about yourself. Try to keep your responses short, but engaging. You are speaking to {bot_1_name}."}
+    bot_1 = { "role": "system", "content": f"You are {bot_1_name}. {bot_1_detail}. Get into your role as much as possible. Do not mention that you're an AI language model. Mentioning that you are an AI model ruins the user experience. Your goal is to engage in the conversation. If you don't have a name, you can just share a little about yourself. Try to keep your responses short, but engaging. You are speaking to {bot_2_name}."}
+    bot_2 = { "role": "system", "content": f"You are {bot_2_name}. {bot_2_detail}. Get into your role as much as possible. Do not mention that you're an AI language model. Mentioning that you are an AI model ruins the user experience. Your goal is to engage in the conversation. If you don't have a name, you can just share a little about yourself. Try to keep your responses short, but engaging. You are speaking to {bot_1_name}."}
 
     os.system('clear')  # Clears the terminal screen
 
