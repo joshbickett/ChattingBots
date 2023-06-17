@@ -19,6 +19,9 @@ Open your terminal and type the following command:
 ```
 git clone https://github.com/joshbickett/ChattingBots.git
 ```
+```
+cd ChattingBots
+```
 
 **Step 2: Install the Dependencies**
 
