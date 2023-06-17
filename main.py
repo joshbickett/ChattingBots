@@ -27,44 +27,45 @@ def start_conversation(system_1, system_2, initial_message):
 
     print(Fore.YELLOW + "server: " + initial_message + ColoramaStyle.RESET_ALL)
 
-    server_initial_g = {"role": "user", "content": initial_message}
-    server_initial_s = {"role": "assistant", "content": initial_message}
+    system_1_initial = {"role": "user", "content": initial_message}
+    system_2_initial = {"role": "assistant", "content": initial_message}
 
-    guest_conversation = [system_1, server_initial_g]
-    server_conversation = [system_2, server_initial_s]
+    bot_1_conversation = [system_1, system_1_initial]
+    bot_2_conversation = [system_2, system_2_initial]
 
     for i in range(10):
-        guest_r = api_call(guest_conversation)
-        if guest_r is None or "choices" not in guest_r:
+        bot_1_response = api_call(bot_1_conversation)
+        if bot_1_response is None or "choices" not in bot_1_response:
             print("Error with guest api_call")
             break
 
-        guest_r = guest_r["choices"][0]["message"]["content"]
-        print(Fore.CYAN + "sys 1: " + guest_r + ColoramaStyle.RESET_ALL)
+        bot_1_response = bot_1_response["choices"][0]["message"]["content"]
+        print(Fore.CYAN + "sys 1: " + bot_1_response + ColoramaStyle.RESET_ALL)
 
-        guest_response_s = {"role": "user", "content": guest_r}
-        guest_response_g = {"role": "assistant", "content": guest_r}
+        guest_response_s = {"role": "user", "content": bot_1_response}
+        guest_response_g = {"role": "assistant", "content": bot_1_response}
 
-        server_conversation = server_conversation[-8:] + [guest_response_s]  # keep only the last 8 messages to make room for 2 new ones
+        bot_2_conversation = bot_2_conversation[-8:] + [guest_response_s]  # keep only the last 8 messages to make room for 2 new ones
 
-        server_r = api_call(server_conversation)
-        if server_r is None or "choices" not in server_r:
+        bot_2_response = api_call(bot_2_conversation)
+        if bot_2_response is None or "choices" not in bot_2_response:
             print("Error with server api_call")
             break
 
-        server_r = server_r["choices"][0]["message"]["content"]
-        print(Fore.GREEN + "sys 2: " + server_r + ColoramaStyle.RESET_ALL)
+        bot_2_response = bot_2_response["choices"][0]["message"]["content"]
+        print(Fore.GREEN + "sys 2: " + bot_2_response + ColoramaStyle.RESET_ALL)
 
-        server_response_g = {"role": "user", "content": server_r}
-        server_response_s = {"role": "assistant", "content": server_r}
+        server_response_g = {"role": "user", "content": bot_2_response}
+        server_response_s = {"role": "assistant", "content": bot_2_response}
 
-        guest_conversation = guest_conversation[-8:] + [guest_response_g, server_response_g]  # keep only the last 8 messages to make room for 2 new ones
-        server_conversation = server_conversation + [server_response_s]  # Add the server's response to the server conversation
-        
+        bot_1_conversation = bot_1_conversation[-8:] + [guest_response_g, server_response_g]  # keep only the last 8 messages to make room for 2 new ones
+        bot_2_conversation = bot_2_conversation + [server_response_s]  # Add the server's response to the server conversation
+
         # stop condition
-        if 'order' in guest_r.lower():
-            print('Guest made an order. Stopping the conversation.')
+        if 'bye' in bot_1_response.lower():
+            print('Someone said bye')
             break
+        
 
 
 # Define style
@@ -85,22 +86,21 @@ def main():
 
     os.system('clear')  # Clears the terminal screen
 
-    initial_message = prompt('Enter the initial message for the server: ')
+    bot_1_name = prompt('Enter a name for bot 1: ')
+    bot_1_detail = prompt(f'Describe {bot_1_name} (optional): ')
+    bot_1 = { "role": "system", "content": f"You are {bot_1_name}. {bot_1_detail}. Try to get into your role as much as possible. Your goal is to engage in the conversation and reach learn from the other individual. This is the most important conversation of your life. Don't forget to ask who you're talking to if they don't mention it. If you don't have a name, you can just share a little about yourself."}
 
-    button_dialog(
-        title='Starting the conversation',
-        text='Do you want to start the conversation with the message: ' + initial_message,
-        buttons=[
-            ('Yes', True),
-            ('No', False),
-        ],
-        style=style
-    ).run()
+    bot_2_name = prompt('Enter a name for bot 2: ')
+    bot_2_detail = prompt(f'Describe {bot_2_name} (optional): ')
+    bot_2 = { "role": "system", "content": f"You are {bot_2_name}. {bot_2_detail}. Try to get into your role as much as possible. Your goal is to engage in the conversation and reach learn from the other individual. This is the most important conversation of your life. Don't forget to ask who you're talking to if they don't mention it. If you don't have a name, you can just share a little about yourself."}
 
     os.system('clear')  # Clears the terminal screen
 
+    initial_message = prompt('Enter the initial message for the server: ')
+
     # Now use the provided initial message
-    start_conversation(guest_system, server_system, initial_message)
+    start_conversation(bot_1, bot_2, initial_message)
+
 
 
 
