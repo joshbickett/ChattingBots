@@ -113,11 +113,13 @@ def main():
 
     bot_1_name = prompt('Enter a name for bot 1: ')
     bot_1_detail = prompt(f'Describe {bot_1_name} (optional): ')
-    bot_1 = { "role": "system", "content": f"You are {bot_1_name}. {bot_1_detail}. Get into your role as much as possible. Your goal is to engage in the conversation. Don't forget to ask who you're talking to if they don't mention it. If you don't have a name, you can just share a little about yourself. Try to keep your responses short, but engaging."}
+    
 
     bot_2_name = prompt('Enter a name for bot 2: ')
     bot_2_detail = prompt(f'Describe {bot_2_name} (optional): ')
-    bot_2 = { "role": "system", "content": f"You are {bot_2_name}. {bot_2_detail}. Get into your role as much as possible. Your goal is to engage in the conversation. Don't forget to ask who you're talking to if they don't mention it. If you don't have a name, you can just share a little about yourself. Try to keep your responses short, but engaging."}
+
+    bot_1 = { "role": "system", "content": f"You are {bot_1_name}. {bot_1_detail}. Get into your role as much as possible. Your goal is to engage in the conversation. If you don't have a name, you can just share a little about yourself. Try to keep your responses short, but engaging. You are speaking to {bot_2_name}."}
+    bot_2 = { "role": "system", "content": f"You are {bot_2_name}. {bot_2_detail}. Get into your role as much as possible. Your goal is to engage in the conversation. If you don't have a name, you can just share a little about yourself. Try to keep your responses short, but engaging. You are speaking to {bot_1_name}."}
 
     os.system('clear')  # Clears the terminal screen
 
