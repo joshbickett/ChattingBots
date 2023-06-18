@@ -6,8 +6,6 @@ Welcome to ChattingBots! This project allows you to create conversations between
 
 For instance, have Socrates and Tom Cruise engage in a deep debate about the meaning of life. Or maybe, you'd prefer to hear what they had for breakfast?
 
-[demo](https://github.com/joshbickett/ChattingBots/blob/main/LICENSE)
-
 ## Getting Started
 
 Simply follow the instructions below to get started:
@@ -19,6 +17,7 @@ Open your terminal and type the following command:
 ```
 git clone https://github.com/joshbickett/ChattingBots.git
 ```
+
 ```
 cd ChattingBots
 ```
