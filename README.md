@@ -49,7 +49,3 @@ python main.py
 ```
 
 Now, you're all set.
-
-## License
-
-ChattingBots is available under the [MIT License](https://github.com/joshbickett/ChattingBots/blob/main/LICENSE).
